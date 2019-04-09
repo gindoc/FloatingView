@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val redPacketView = FloatingView(this)
         redPacketView.setImageResource(R.drawable.red_packet)
         // 边界自己根据实际情况设定，这里的bottom设为屏幕高度减去状态栏高度
-        redPacketView.setBoundary(0, 0, windowSize[0], windowSize[1]-WindowUtils.getStatusHeight(this))
+        redPacketView.setBoundary(0, 0, windowSize[0], windowSize[1] - WindowUtils.getStatusHeight(this))
 
         val params = FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT

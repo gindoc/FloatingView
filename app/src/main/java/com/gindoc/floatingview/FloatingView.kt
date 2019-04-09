@@ -28,7 +28,9 @@ class FloatingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     @ORIENTATION
     var orientation = HORIZONTAL                // 控件悬停的行为(水平靠边、垂直靠边，总是在左边、右边、上边、下边悬停)
     private var isPositive = true               // 用于orientation为VERTICAL、HORIZONTAL时，是正向移动还是反向移动
+
     var hasAnim = true                          // 是否使用动画
+    var duration: Long = 500                    // 动画时间
     private var isAnimPlaying = false           // 动画是否正在进行中
 
     init {
@@ -82,7 +84,7 @@ class FloatingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             } else if (event.action == MotionEvent.ACTION_UP) {
                 when (orientation) {
                     HORIZONTAL -> {
-                        tanslateX = if (right - width / 2 < rightBoundary / 2) {
+                        tanslateX = if (right - width / 2 < (rightBoundary + leftBoundary) / 2) {
                             isPositive = false
                             leftBoundary.toFloat() - left
                         } else {
@@ -91,7 +93,7 @@ class FloatingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         }
                     }
                     VERTICAL -> {
-                        tanslateY = if (bottom - height / 2 < bottomBoundary / 2) {
+                        tanslateY = if (bottom - height / 2 < (bottomBoundary + topBoundary) / 2) {
                             isPositive = false
                             topBoundary.toFloat() - top
                         } else {
@@ -159,7 +161,7 @@ class FloatingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun startAnim() {
         if (tanslateX == 0f && tanslateY == 0f) return
         val animation = TranslateAnimation(0f, tanslateX, 0f, tanslateY)
-        animation.duration = 500
+        animation.duration = duration
         animation.fillAfter = true
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
